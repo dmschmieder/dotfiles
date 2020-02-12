@@ -11,9 +11,12 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'jeetsukumaran/vim-buffergator'
 
 call vundle#end()
 
+" Opts
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -24,11 +27,13 @@ set ignorecase
 set smartcase
 set backspace=indent,eol,start
 
+set autoindent
 set smartindent
 
 " Turn off highlighting until next search
 nnoremap <C-L> :nohl<CR><C-L>
 
+" Go integration
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
@@ -54,12 +59,6 @@ let g:go_fmt_command = "goimports"
 
 " Use HTML syntax highlighting on handlebars files
 autocmd BufNewFile,BufRead *.handlebars set syntax=html
-
-" Auto reload files on vimrc change
-augroup myvimrc
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
 
 " set background=dark
 " set t_Co=256
@@ -105,3 +104,34 @@ nnoremap <silent> <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :noh
 " CTRLP
 let g:ctrlp_map = '<C-p>'
 set wildignore+=*/OUT/*
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+" Use nearest git directory as cwd
+let g:ctrlp_working_path_mode = 'r'
+"" Bindings for CTRLP modes
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+" Folding
+" set foldmethod=indent
+" set foldlevel=99
+
+let g:SimpylFold_docstring_preview = 0
+" Use space as fold command
+nnoremap <space> za
+
+" Airline buffers
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+set hidden
+
+" CLose current buffer and move to next
+nmap <leader>bq :bp <BAR> bd #<CR>
+
+nmap <leader>q :bdelete<CR>
+nmap <leader>u :bunload<CR>
+nmap <leader>c :close<CR>
