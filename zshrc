@@ -105,6 +105,7 @@ alias dev="cd ~/source/numera.dockerfiles/src/libris-webapp-ms/brilis_webapp"
 alias devm="cd ~/source/numera.dockerfiles/src/libris-webapp-os/brilis_webapp"
 alias dc="docker-compose"
 alias cddc="cd ~/source/numera.dockerfiles"
+alias grpe="grep"
 
 function dcb() {
     docker-compose exec $1 bash
